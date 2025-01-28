@@ -2,49 +2,35 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\StoreUpdateWeatherAction;
+use App\Http\Requests\StoreWeatherRequest;
 use App\Models\Weather;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class WeatherController extends Controller
 {
-    public function getWeatherFromApi(string $city)
+    public function getWeatherFromApi(string $city): JsonResponse
     {
-        $apiKey = 'e4b8b08c185638b825af37facfe1fabb';
-
-        $url = "http://api.openweathermap.org/data/2.5/weather?q={$city}&units=metric&appid={$apiKey}";
-
-        $response = file_get_contents($url);
-         return response()->json(json_decode($response));
-
+        return response()
+            ->json(json_decode(file_get_contents(
+                "http://api.openweathermap.org/data/2.5/weather?q={$city}&units=metric&appid=e4b8b08c185638b825af37facfe1fabb"
+                )
+        ));
     }
 
-    public function saveWeather(Request $request): JsonResponse
+    public function saveWeather(StoreWeatherRequest $request, StoreUpdateWeatherAction $action): JsonResponse
     {
-        $cityName = $request->city_name;
-        $request->validate([
-            'city_name' => 'required|string',
-            'min_tmp' => 'required|numeric',
-            'max_tmp' => 'required|numeric',
-            'wind_spd' => 'required|numeric',
+        return response()->json([
+            'message' => $action->handle($request->validated())->wasRecentlyCreated
+                ? 'Weather created'
+                : 'Weather updated'
         ]);
-
-        if(Weather::where('city_name', $cityName)->exists()){
-            Weather::updated([
-                'min_tmp' => $request->min_tmp,
-                'max_tmp' => $request->max_tmp,
-                'wind_spd' => $request->wind_spd,
-            ]);
-            return response()->json(['message' => 'Weather updated']);
-        }else{
-            Weather::create($request->all());
-            return response()->json(['message' => 'Weather created']);
-        }
     }
 
 
-    public function loadWeather()
+    public function loadWeather(string $city): JsonResponse
     {
-        return response()->json(Weather::all());
+        $cityData = Weather::where('city_name', $city)->first();
+        return response()->json($cityData ?? ['message' => 'City not found'], $cityData ? 200 : 404);
     }
 }

@@ -8,5 +8,5 @@ Route::get('/', function () {
 });
 Route::get('/weather/{city}', [WeatherController::class, 'getWeatherFromApi']);
 Route::post('/weather', [WeatherController::class, 'saveWeather']);
-Route::get('/weather-load', [WeatherController::class, 'loadWeather']);
+Route::get('/weather-load/{city}', [WeatherController::class, 'loadWeather']);
 
