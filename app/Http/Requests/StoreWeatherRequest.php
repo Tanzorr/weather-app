@@ -26,7 +26,7 @@ class StoreWeatherRequest extends FormRequest
             'city_name' => 'required|string',
             'min_tmp' => 'required|numeric',
             'max_tmp' => 'required|numeric',
-            'wind_spd' => 'required|numeric',
+            'wind_speed' => 'required|numeric',
         ];
     }
 }

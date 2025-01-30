@@ -10,5 +10,5 @@ class Weather extends Model
     use HasFactory;
 
     protected $table = 'weathers';
-    protected $fillable = ['city_name', 'min_tmp', 'max_tmp', 'wind_spd'];
+    protected $fillable = ['city_name', 'min_tmp', 'max_tmp', 'wind_speed', 'created_at'];
 }

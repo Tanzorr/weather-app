@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('city_name');
             $table->float('min_tmp');
             $table->float('max_tmp');
-            $table->float('wind_spd');
+            $table->float('wind_speed');
             $table->timestamps();
         });
     }
