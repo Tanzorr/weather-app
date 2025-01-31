@@ -22,9 +22,8 @@ class WeatherService
         $cityData = Weather::where('city_name', $city)->first();
 
         if (!$cityData) {
-            return ['message' => 'City not found'];
+            return ['list' => []];
         }
-
         return [
             'city' => [
                 'name' => $cityData->city_name,
@@ -32,7 +31,7 @@ class WeatherService
             ],
             'list' => [
                 [
-                    'dt_txt' => $cityData->created_at,
+                    'dt_txt' => $cityData->timestamp_dt,
                     'main' => [
                         'temp_max' => $cityData->max_tmp,
                         'temp_min' => $cityData->min_tmp

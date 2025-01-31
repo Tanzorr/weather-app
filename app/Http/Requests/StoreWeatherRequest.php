@@ -24,6 +24,7 @@ class StoreWeatherRequest extends FormRequest
     {
         return [
             'city_name' => 'required|string',
+            'timestamp_dt' => 'required|date',
             'min_tmp' => 'required|numeric',
             'max_tmp' => 'required|numeric',
             'wind_speed' => 'required|numeric',

@@ -23,8 +23,8 @@ class WeatherController extends Controller
     {
         return response()->json([
             'message' => $action->handle($request->validated())->wasRecentlyCreated
-                ? 'Weather created'
-                : 'Weather updated'
+                ? 'Weather data created'
+                : 'Weather data updated'
         ]);
     }
 
